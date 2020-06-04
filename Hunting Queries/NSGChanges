@@ -1,0 +1,4 @@
+AzureActivity
+| where TimeGenerated > ago(7d) and parse_json(Authorization).action == "Microsoft.Authorization/roleAssignments/write" and ActivityStatus == "Succeeded"
+| make-series count() default=0 on TimeGenerated in range(ago(7d), now(), 1d) by Caller
+|render barchart
